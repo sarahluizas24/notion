@@ -108,10 +108,17 @@ h1 {
 </div>
 
 <script>
+    const daysFr = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    const monthsFr = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
+
     function date() {
-var today = new Date();
-document.getElementById('date').innerHTML = today.toDateString();
-}
+        var today = new Date();
+        var day = daysFr[today.getDay()];
+        var date = today.getDate();
+        var month = monthsFr[today.getMonth()];
+        var year = today.getFullYear();
+
+        document.getElementById('date').innerHTML = day + ' ' + month + year;
 
 
 function clock() {
