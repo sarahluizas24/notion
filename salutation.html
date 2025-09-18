@@ -1,95 +1,159 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="pt-BR">
 <head>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Bebas+Neue" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>greeting2</title>
+    <title>Saudação e Horário</title>
     <style>
         body {
             background-color: #fff;
             line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
-        h1 {
-            margin-top: 0;
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
         }
+        
         .full-table {
             display: table;
             height: 100%;
             width: 100%;
         }
+        
         .table-cell {
             display: table-cell;
             vertical-align: middle;
             text-align: center;
         }
+        
         .card {
-            padding: 10px 25px 10px 25px;
-            border-radius: 10px;
-            background: #e3d591;
-            width: 85vw;
-            color: #875f34;
+            padding: 25px 30px;
+            border-radius: 15px;
+            background: #778531;
+            width: 85%;
+            color: #fff;
             display: inline-block;
-            box-shadow: 2px 2px 1px 0px #baac62;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
+        
         .card:hover {
-            margin-top: 2px;
-            box-shadow: none;
+            transform: translateY(-5px);
+            box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.25);
         }
+        
         .clock {
             display: inline;
-            font-family: 'Pristina', cursive;
-            font-size: 2em;
+            font-family: 'Lobster', cursive;
+            font-size: 2.2em;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
+        
         .time {
             display: inline;
-            min-width: 37px;
+            min-width: 40px;
         }
+        
         .colon {
-            font-size: 1.1em;
+            font-size: 1.2em;
             display: inline-block;
+            margin: 0 2px;
+            animation: blink 1s infinite;
         }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
         .date {
             display: inline;
-            min-width: 162px;
-            font-family: 'Pristina', cursive;
-            font-size: 2em;
+            min-width: 200px;
+            font-family: 'Lobster', cursive;
+            font-size: 1.8em;
             padding-right: 30px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
+        
         .greet {
             display: inline;
-            font-family: 'Pristina', cursive;
-            font-size: 2rem;
+            font-family: 'Lobster', cursive;
+            font-size: 2.2rem;
             padding-right: 30px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .language-note {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                width: 90%;
+                padding: 20px 15px;
+            }
+            
+            .greet, .date, .clock {
+                display: block;
+                padding: 5px 0;
+            }
+            
+            .colon {
+                margin: 0 1px;
+            }
         }
     </style>
 </head>
 <body>
     <link href="https://fonts.googleapis.com/css?family=Lobster|Roboto:400,700" rel="stylesheet">
-    <div class="full-table">
-        <div class="table-cell">
-            <div class="card">
-                <div class="greet" id="greet"></div>
-                <div class="date" id="date"></div>
-                <div class="clock">
-                    <div class="time" id="hour"></div>
-                    <div class="colon">:</div>
-                    <div class="time" id="min"></div>
-                    <div class="colon">:</div>
-                    <div class="time" id="sec"></div>
+    
+    <div class="container">
+        <div class="full-table">
+            <div class="table-cell">
+                <div class="card">
+                    <div class="greet" id="greet"></div>
+                    <div class="date" id="date"></div>
+                    <div class="clock">
+                        <div class="time" id="hour"></div>
+                        <div class="colon">:</div>
+                        <div class="time" id="min"></div>
+                        <div class="colon">:</div>
+                        <div class="time" id="sec"></div>
+                    </div>
                 </div>
             </div>
+        </div>
+        
+        <div class="language-note">
+            Widget em Português Brasileiro
         </div>
     </div>
 
     <script>
-        function date() {
+        function updateDate() {
             const today = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('date').innerHTML = today.toLocaleDateString('fr-FR', options);
+            document.getElementById('date').innerHTML = today.toLocaleDateString('pt-BR', options);
         }
 
-        function clock() {
+        function updateClock() {
             const today = new Date();
             const hour = zeros(today.getHours());
             const minutes = zeros(today.getMinutes());
@@ -97,12 +161,13 @@
             
             const hrs = today.getHours();
             let greet;
+            
             if (hrs < 12) {
-                greet = 'Bom dia, Sarah';
-            } else if (hrs >= 12 && hrs <= 17) {
-                greet = 'Boa tarde, Sarah';
+                greet = 'Bom dia, Sarah!';
+            } else if (hrs >= 12 && hrs < 18) {
+                greet = 'Boa tarde, Sarah!';
             } else {
-                greet = 'Boa noite, Sarah';
+                greet = 'Boa noite, Sarah!';
             }
 
             document.getElementById('greet').innerHTML = greet;
@@ -115,13 +180,13 @@
             return num < 10 ? '0' + num : num;
         }
 
-        function dateTime() {
-            date();
-            clock();
-            setTimeout(dateTime, 500);
+        function updateDateTime() {
+            updateDate();
+            updateClock();
+            setTimeout(updateDateTime, 500);
         }
 
-        dateTime();
+        updateDateTime();
     </script>
 </body>
 </html>
